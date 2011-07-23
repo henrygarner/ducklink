@@ -62,7 +62,7 @@ If you need to, you can URLEncode the target URL explicitly:
 	Ducklink::Decorator.decorate 'http://www.example.com/some/path', :reference => 100
 	=> http://affiliate.example.com?clickref=100&url=http://www.example.com/some/path
 	
-### Specify behaviour of groups ###
+### Specify format of groups ###
 	
 	Ducklink::Decorator.configure do
 		group do
@@ -85,7 +85,7 @@ If you need to, you can URLEncode the target URL explicitly:
 
 1. Tests!
 2. URL validity checks
-3. Merge parameters if target_url already has them
+3. Merge parameters if url already has them
 4. Intelligently URL encode parameters
 5. Support introspection of keys expected in context so calling code knows what to provide
 
