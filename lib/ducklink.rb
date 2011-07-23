@@ -3,8 +3,8 @@ require 'uri'
 require 'cgi'
 
 module Ducklink
-  def self.decorate(url)
-    Decorator.decorate(url)
+  def self.decorate(url, context = {})
+    Decorator.decorate(url, context)
   end
   
   class Decorator
@@ -24,14 +24,13 @@ module Ducklink
       end
       
       def decorate(url, context = {})
-        params, block = hosts[URI.parse(url).host]
+        params, block = hosts[URI.parse(url).host] rescue nil
         return url unless params
-      
+        
         params.set :url, url
         params.instance_exec context, &block
-      
-        format = params[:format]
-        format.scan(/\{\{([a-z_]+?)\}\}/i).inject(format) do |result, matches|
+        
+        params.template.scan(/\{\{([a-z_]+?)\}\}/i).inject(params.template) do |result, matches|
           params[matches.first] ? result.gsub("{{#{matches.first}}}", params[matches.first]) : result
         end
       end
@@ -45,20 +44,20 @@ module Ducklink
       @settings = settings
     end
     
-    def format(format)
-      set :format, format
+    def set(key, value)
+      settings[key.to_s] = value.to_s
+    end
+    
+    def [](key)
+      settings[key.to_s]
+    end
+    
+    def template(template = nil)
+      template ? set(:template, template) : self[:template]
     end
     
     def group(&block)
       Params.new(settings.clone).instance_exec &block
-    end
-    
-    def set(key, value)
-      @settings[key.to_s] = value.to_s
-    end
-    
-    def [](key)
-      @settings[key.to_s]
     end
     
     def host(*domains, &block)
