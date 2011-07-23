@@ -24,7 +24,7 @@ If nothing matches, the URL is returned untouched. If a match is found, then the
 		end
 	end
 
-	Ducklink::Decorator.decorate 'http://www.example.com/some/path'
+	Ducklink.decorate 'http://www.example.com/some/path'
 	=> http://www.example.com/some/path?extra=params&added=here
 
 ### Redirects ###
@@ -35,7 +35,7 @@ If nothing matches, the URL is returned untouched. If a match is found, then the
 		end
 	end
 	
-	Ducklink::Decorator.decorate 'http://www.example.com/some/path'
+	Ducklink.decorate 'http://www.example.com/some/path'
 	=> http://affiliate.example.com?clickref=42&url=http://www.example.com/some/path
 	
 If you need to, you can URLEncode the target URL explicitly:
@@ -47,7 +47,7 @@ If you need to, you can URLEncode the target URL explicitly:
 		end
 	end
 	
-	Ducklink::Decorator.decorate 'http://www.example.com/some/path'
+	Ducklink.decorate 'http://www.example.com/some/path'
 	=> http://affiliate.example.com?clickref=42&url=http%3A%2F%2Fwww.example.com%2Fsome%2Fpath
 	
 ### Run-time parameters ###
@@ -59,14 +59,14 @@ If you need to, you can URLEncode the target URL explicitly:
 		end
 	end
 	
-	Ducklink::Decorator.decorate 'http://www.example.com/some/path', :reference => 100
+	Ducklink.decorate 'http://www.example.com/some/path', :reference => 100
 	=> http://affiliate.example.com?clickref=100&url=http://www.example.com/some/path
 	
 ### Specify format of groups ###
 	
 	Ducklink::Decorator.configure do
 		group do
-			format 'http://affiliate.example.com?clickref={{reference}}&url={{url}}#campaign={{campaign}}
+			format 'http://affiliate.example.com?clickref={{reference}}&url={{url}}#campaign={{campaign}}'
 			host 'buy.example.com', 'shop.example.com' do |context|
 				set :campaign, 'campaign1'
 				set :reference, context[:reference]
@@ -78,7 +78,7 @@ If you need to, you can URLEncode the target URL explicitly:
 		end
 	end
 	
-	Ducklink::Decorator.decorate 'http://shop.example.com/goodies', :reference => 100
+	Ducklink.decorate 'http://shop.example.com/goodies', :reference => 100
 	=> http://affiliate.example.com?clickref=100&url=http://shop.example.com/goodies#campaign=campaign1
 	
 ## TODO ##

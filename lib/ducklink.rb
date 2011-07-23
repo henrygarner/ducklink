@@ -3,6 +3,10 @@ require 'uri'
 require 'cgi'
 
 module Ducklink
+  def self.decorate(url)
+    Decorator.decorate(url)
+  end
+  
   class Decorator
     class << self
       @@hosts = {}
