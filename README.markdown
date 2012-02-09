@@ -17,7 +17,7 @@ If nothing matches, the URL is returned untouched. If a match is found, then the
 
 ### Add parameters ###
 
-
+```ruby
 	Ducklink::Decorator.configure do
 		host 'www.example.com' do
 			template '{{url}}?extra=params&added=here'
@@ -25,10 +25,12 @@ If nothing matches, the URL is returned untouched. If a match is found, then the
 	end
 
 	Ducklink.decorate 'http://www.example.com/some/path'
-	=> http://www.example.com/some/path?extra=params&added=here
+	=> "http://www.example.com/some/path?extra=params&added=here"
+```
 
 ### Redirects ###
 
+```ruby
 	Ducklink::Decorator.configure do
 		host 'www.example.com' do
 			template 'http://affiliate.example.com?clickref=42&url={{url}}'
@@ -36,10 +38,12 @@ If nothing matches, the URL is returned untouched. If a match is found, then the
 	end
 	
 	Ducklink.decorate 'http://www.example.com/some/path'
-	=> http://affiliate.example.com?clickref=42&url=http://www.example.com/some/path
+	=> "http://affiliate.example.com?clickref=42&url=http://www.example.com/some/path"
+```
 	
 If you need to, you can URLEncode the target URL explicitly:
 
+```ruby
 	Ducklink::Decorator.configure do
 		host 'www.example.com' do
 			template 'http://affiliate.example.com?clickref=42&url={{url}}'
@@ -48,10 +52,12 @@ If you need to, you can URLEncode the target URL explicitly:
 	end
 	
 	Ducklink.decorate 'http://www.example.com/some/path'
-	=> http://affiliate.example.com?clickref=42&url=http%3A%2F%2Fwww.example.com%2Fsome%2Fpath
+	=> "http://affiliate.example.com?clickref=42&url=http%3A%2F%2Fwww.example.com%2Fsome%2Fpath"
+```
 	
 ### Run-time parameters ###
 
+```ruby
 	Ducklink::Decorator.configure do
 		host 'www.example.com' do |context|
 			template 'http://affiliate.example.com?clickref={{reference}}&url={{url}}'
@@ -60,10 +66,12 @@ If you need to, you can URLEncode the target URL explicitly:
 	end
 	
 	Ducklink.decorate 'http://www.example.com/some/path', :reference => 100
-	=> http://affiliate.example.com?clickref=100&url=http://www.example.com/some/path
-	
+	=> "http://affiliate.example.com?clickref=100&url=http://www.example.com/some/path"
+```	
+
 ### Specify template in groups ###
-	
+
+```ruby
 	Ducklink::Decorator.configure do
 		group do
 			template 'http://affiliate.example.com?clickref={{reference}}&url={{url}}#campaign={{campaign}}'
@@ -79,8 +87,9 @@ If you need to, you can URLEncode the target URL explicitly:
 	end
 	
 	Ducklink.decorate 'http://shop.example.com/goodies', :reference => 100
-	=> http://affiliate.example.com?clickref=100&url=http://shop.example.com/goodies#campaign=campaign1
-	
+	=> "http://affiliate.example.com?clickref=100&url=http://shop.example.com/goodies#campaign=campaign1"
+```
+
 ## TODO ##
 
 1. Tests!
